@@ -2,6 +2,7 @@ import * as React from "react";
 import { useGlobalState } from "../components/GlobalProvider";
 import logo from "../assets/media/logo-dark.png";
 import Scene from "../components/Scene";
+import Tools from "../components/Tools";
 import RandomizeButton from "../components/Randomize";
 import { apiService, threeService } from "../services";
 import "./style.scss";
@@ -19,7 +20,7 @@ export default function Template(props: any) {
     randomize,
     setRandomize,
   }: any = useGlobalState();
-  React.useEffect(() => {
+  React.useEffect(() => { 
     apiService
       .fetchTemplate(props?.match?.params?.id ?? "default")
       .then((res) => {
@@ -71,6 +72,7 @@ export default function Template(props: any) {
       <RandomizeButton />
       <DownloadCharacter />
       <ConnectMint />
+      <Tools />
       <NavLink to="/">
         <img src={logo} alt="" className="logo" />
       </NavLink>

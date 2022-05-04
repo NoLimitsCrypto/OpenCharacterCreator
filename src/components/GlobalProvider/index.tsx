@@ -7,6 +7,8 @@ export const GPRoute = ({ component: Component, ...rest }) => {
   // General State Hooks
   // ---------- //
   // Which character creator/generator is chosen ( base , template , custom )
+  const [gl, setGL] = React.useState<object>(Object);
+  const [camera, setCamera] = React.useState<object>(Object);
   const [generator, setGenerator] = React.useState<any>(0);
   const [navigation, setNavigation] = React.useState<string>("body");
   const [modelLoaded, setModelLoaded] = React.useState<boolean>();
@@ -45,7 +47,7 @@ export const GPRoute = ({ component: Component, ...rest }) => {
   // States Hooks used in template editor //
   const [templateInfo, setTemplateInfo] = React.useState<object>();
   const [randomize, setRandomize] = React.useState<boolean>(false);
-  const [downloadPopup, setDownloadPopup] = React.useState<boolean>(false);
+  const [mintavatar, setMintAvatar ] = React.useState<boolean>(false);
 
   return (
     <Route
@@ -75,6 +77,10 @@ export const GPRoute = ({ component: Component, ...rest }) => {
               setModel,
               nodes,
               setNodes,
+              gl,
+              setGL,
+              camera,
+              setCamera,
               scene,
               setScene,
               materials,
@@ -86,8 +92,8 @@ export const GPRoute = ({ component: Component, ...rest }) => {
               setTemplateInfo,
               randomize,
               setRandomize,
-              downloadPopup,
-              setDownloadPopup
+              mintavatar,
+              setMintAvatar 
             }}
           >
             <Component {...props} />

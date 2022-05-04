@@ -28,6 +28,8 @@ export const GPRoute = ({ component: Component, ...rest }) => {
   // Bones State and Loaded Hooks
   const [bones, setBones] = React.useState([]);
   const [bonesLoaded, setBonesLoaded] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   // Pose State Hook
   const [pose, setPose] = React.useState(undefined);
   const [poseSelected, setPoseSelected] = React.useState("default");
@@ -93,7 +95,9 @@ export const GPRoute = ({ component: Component, ...rest }) => {
               randomize,
               setRandomize,
               mintavatar,
-              setMintAvatar 
+              setMintAvatar,
+              loading,
+              setLoading
             }}
           >
             <Component {...props} />

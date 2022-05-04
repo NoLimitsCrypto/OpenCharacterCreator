@@ -66,7 +66,7 @@ async function saveFileToPinata(fileData: any) {
 }
 
 async function saveMetaDataToPinata(metadata: any) {
-  const response = await axios.post(`${BASE_URI_PROD}/save-metadata`, {
+  const response = await axios.post(`${BASE_URI_DEV}/save-metadata`, {
     ...metadata,
   });
   return response.data;

@@ -4,6 +4,7 @@ import "./style.scss";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import GavelIcon from "@mui/icons-material/Gavel";
 import { useGlobalState } from "../GlobalProvider";
+import loaderGif from "../../assets/media/loader.gif";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,8 +21,9 @@ const style = {
 };
 
 export default function ConnectMint() {
-  const { navigation, mintavatar, setMintAvatar, setNavigation }: any = useGlobalState();
-  let data:any =  useGlobalState()
+  const { loading, navigation, mintavatar, setMintAvatar, setNavigation }: any =
+    useGlobalState();
+  let data: any = useGlobalState();
   const mint = () => {
     if (!mintavatar) {
       setNavigation("download");
@@ -33,10 +35,21 @@ export default function ConnectMint() {
       <Button variant="contained" startIcon={<AccountBalanceWalletIcon />}>
         Connect
       </Button>
-      
-      <Button onClick={() => mint()} variant="contained" startIcon={<GavelIcon />}>
+
+      <Button
+        onClick={() => mint()}
+        variant="contained"
+        startIcon={<GavelIcon />}
+      >
         Mint
       </Button>
+      {loading && (
+        <div className="mint-loader">
+          <div>
+            <img src={loaderGif} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

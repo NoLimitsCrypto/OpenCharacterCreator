@@ -22,13 +22,14 @@ export function DownloadTools() {
     camera,
     mintavatar,
     setMintAvatar,
+    loading,
+    setLoading,
   }: any = useGlobalState();
   const [file, setFile] = React.useState(null);
   // const [imagefile, setImageFile] = React.useState(null);
   const [name, setName] = React.useState("test");
   const [description, setDescription] = React.useState("test");
   const [preview, setPreview] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState(null);
   const downloadModel = (format: any) => {
     threeService.download(
@@ -56,10 +57,25 @@ export function DownloadTools() {
       const formData = new FormData();
       formData.append("profile", preview);
       setLoading(true);
-      const fileurl = await apiService.saveFileToPinata(formData);
-      setLoading(false);
-      alert(`upploaded to pinata, IpfsHash = ${fileurl.IpfsHash}`);
+      console.log("FILE ", preview.name);
+      const fileurl: any = await apiService.saveFileToPinata(formData);
+      alert(`file uploaded to pinata, IpfsHash = ${fileurl.IpfsHash}`);
       console.log("UPLOADED TO PINATA, Upload Result", fileurl);
+      const metadata = {
+        name: preview.name,
+        description: "some description",
+        image: fileurl.IpfsHash,
+        animation_url: fileurl,
+      };
+
+      const fileMetaDataUrl: any = await apiService.saveMetaDataToPinata(
+        metadata
+      );
+      setLoading(false);
+      alert(
+        `file meta data uploaded to pinata, IpfsHash = ${fileurl.IpfsHash}`
+      );
+
       /*
       // previewimage and metadata 
       const imageformData = new FormData();
@@ -101,6 +117,7 @@ export function DownloadTools() {
       */
     } catch (err) {
       console.error(err);
+      setLoading(false);
       alert("An error occured!");
     }
   };
@@ -188,31 +205,7 @@ export function DownloadTools() {
 
   return (
     <div>
-      <img id="previewimage" src={previewImage} />
-      <Button
-        onClick={() => downloadModel("gltf/glb")}
-        variant="outlined"
-        className="download-button"
-      >
-        Download GLTF/GLB
-      </Button>
-      <Button
-        onClick={() => downloadModel("obj")}
-        variant="outlined"
-        className="download-button"
-      >
-        Download OBJ
-      </Button>
-      <Button
-        onClick={() => downloadModel("vrm")}
-        variant="outlined"
-        className="download-button"
-      >
-        Download VRM
-      </Button>
-      <div className="minting-loader">
-        {loading && <div>minting.....Please wait</div>}
-      </div>
+      {/* <img id="previewimage" src={previewImage} /> */}
     </div>
   );
 }

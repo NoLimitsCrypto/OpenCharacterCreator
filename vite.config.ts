@@ -5,7 +5,13 @@ import * as path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 443
+    // host: '0.0.0.0',
+    // https: true,
+    hmr: {
+      host: 'avatars.darknexus.city',
+      port: 443,
+      // protocol: 'wss',
+    },
   },
   resolve: {
   },

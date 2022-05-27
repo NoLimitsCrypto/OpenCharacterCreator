@@ -16,7 +16,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 3000,
     strictPort: true,
-    https:true,
+    // https:true,
     hmr: {
       host: "avatars.darknexus.city",
       protocol: "ws",

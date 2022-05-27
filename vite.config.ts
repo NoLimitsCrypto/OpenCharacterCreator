@@ -20,7 +20,7 @@ export default defineConfig({
     hmr: {
       host: "avatars.darknexus.city",
       protocol: "wss",
-      clientPort: 443,
+      clientPort: 3000,
       
     },
   },

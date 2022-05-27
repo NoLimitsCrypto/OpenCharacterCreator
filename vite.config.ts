@@ -16,11 +16,11 @@ export default defineConfig({
     // host: "0.0.0.0",
     port: 3001,
     // strictPort: true,
-    // https:true,
+    https:true,
 
     hmr: {
       // host: "avatars.darknexus.city",
-      protocol: "ws",
+      protocol: "wss",
       port: 3001,
     },
   },

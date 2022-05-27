@@ -13,15 +13,15 @@ export default defineConfig({
   plugins: [reactRefresh()],
   clearScreen: false,
   server: {
-    // host: "0.0.0.0",
-    // port: 3000,
+    host: "0.0.0.0",
+    port: 3001,
     // strictPort: true,
     // https:true,
 
     hmr: {
       host: "avatars.darknexus.city",
       protocol: "wss",
-      port: 443,
+      port: 3001,
     },
   },
 });

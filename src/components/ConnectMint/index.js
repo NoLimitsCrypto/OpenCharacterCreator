@@ -41,7 +41,7 @@ const API_URL = "http://34.214.42.55:8081";
 export default function ConnectMint() {
     const { ethereum } = window;
     const { activate, deactivate, library, account } = useWeb3React();
-    const { avatarCategory, modelNodes, mintPopup, setMintPopup, scene, mintPrice, mintPricePublic, totalMinted, gender, totalToBeMinted, hair, face, tops, arms, neck, bottoms, shoes, legs, accessories } = useGlobalState();
+    const { avatarCategory, modelNodes, mintPopup, setMintPopup, scene, mintPrice, mintPricePublic, totalMinted, setTotalMinted, gender, totalToBeMinted, hair, face, tops, arms, neck, bottoms, shoes, legs, accessories } = useGlobalState();
     const injected = new InjectedConnector({
         supportedChainIds: [1, 3, 4, 5, 42, 97],
     });
@@ -84,7 +84,7 @@ export default function ConnectMint() {
         setShowAlert(true);
         setTimeout(() => {
             setShowAlert(false);
-        }, 2000);
+        }, 4000);
     };
     const sendWhitelist = async () => {
         try {
@@ -188,6 +188,7 @@ export default function ConnectMint() {
         const signer = new ethers.providers.Web3Provider(ethereum).getSigner();
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
         const responseUser = await axios.get(`${API_URL}/get-signature?address=${account}`);
+        console.log("response", responseUser);
         if (responseUser.data.signature) {
             let amountInEther = mintPrice;
             setIsPricePublic(1);
@@ -205,7 +206,8 @@ export default function ConnectMint() {
             catch (error) {
                 console.log(error);
                 handleCloseMintPopup();
-                alertModal(error.message);
+                // alertModal(error.message);
+                alertModal("Whitelist Mint Failed");
             }
         }
         else {
@@ -225,13 +227,18 @@ export default function ConnectMint() {
             catch (error) {
                 console.log(error);
                 handleCloseMintPopup();
-                alertModal(error.message);
+                // alertModal(error.message);
+                alertModal("Public Mint Failed");
             }
         }
         return false;
     };
-    const handleOpenMintPopup = () => {
+    const handleOpenMintPopup = async () => {
         setMintPopup(true);
+        const signer = new ethers.providers.Web3Provider(ethereum).getSigner();
+        const contract = new ethers.Contract(contractAddress, contractABI, signer);
+        const MintedToken = await contract.totalSupply();
+        setTotalMinted(parseInt(MintedToken));
     };
     const handleCloseMintPopup = () => {
         setMintPopup(false);

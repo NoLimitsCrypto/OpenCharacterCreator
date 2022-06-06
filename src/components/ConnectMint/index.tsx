@@ -55,6 +55,7 @@ export default function ConnectMint() {
     mintPrice,
     mintPricePublic,
     totalMinted,
+    setTotalMinted,
     gender,
     totalToBeMinted,
     hair,
@@ -114,7 +115,7 @@ export default function ConnectMint() {
     setShowAlert(true);
     setTimeout(() => {
       setShowAlert(false);
-    }, 2000);
+    }, 4000);
   };
 
   const sendWhitelist = async () => {
@@ -226,7 +227,7 @@ export default function ConnectMint() {
     const responseUser = await axios.get(
       `${API_URL}/get-signature?address=${account}`
     );
-
+    console.log("response", responseUser);
     if (responseUser.data.signature) {
       let amountInEther = mintPrice;
       setIsPricePublic(1);
@@ -247,7 +248,8 @@ export default function ConnectMint() {
       } catch (error) {
         console.log(error);
         handleCloseMintPopup();
-        alertModal(error.message);
+        // alertModal(error.message);
+        alertModal("Whitelist Mint Failed");
       }
     } else {
       let amountInEther = mintPricePublic;
@@ -268,14 +270,21 @@ export default function ConnectMint() {
       } catch (error) {
         console.log(error);
         handleCloseMintPopup();
-        alertModal(error.message);
+        // alertModal(error.message);
+        alertModal("Public Mint Failed");
       }
     }
     return false;
   };
 
-  const handleOpenMintPopup = () => {
+  const handleOpenMintPopup = async () => {
     setMintPopup(true);
+
+    const signer = new ethers.providers.Web3Provider(ethereum).getSigner();
+    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    const MintedToken = await contract.totalSupply();
+    setTotalMinted(parseInt(MintedToken));
+
   };
   const handleCloseMintPopup = () => {
     setMintPopup(false);
